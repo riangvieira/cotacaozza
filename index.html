@@ -62,27 +62,33 @@
     <h2>Cotações de Hoje</h2>
     <div class="moeda" id="dolar">Dólar: <span class="valor">carregando...</span></div>
     <div class="moeda" id="euro">Euro: <span class="valor">carregando...</span></div>
+    <div class="moeda" id="cny">Yuan Chinês: <span class="valor">carregando...</span></div>
   </div>
 
   <script>
     async function carregarCotacoes() {
       try {
-        const resposta = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL');
+        const resposta = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,CNY-BRL');
         const dados = await resposta.json();
 
         const dolar = dados.USDBRL;
         const euro = dados.EURBRL;
+        const cny = dados.CNYBRL;
 
         const dolarBid = parseFloat(dolar.bid);
         const dolarOpen = parseFloat(dolar.open);
         const euroBid = parseFloat(euro.bid);
         const euroOpen = parseFloat(euro.open);
+        const cnyBid = parseFloat(cny.bid);
+        const cnyOpen = parseFloat(cny.open);
 
         const dolarClass = dolarBid >= dolarOpen ? 'up' : 'down';
         const euroClass = euroBid >= euroOpen ? 'up' : 'down';
+        const cnyClass = cnyBid >= cnyOpen ? 'up' : 'down';
 
         document.getElementById('dolar').innerHTML = `Dólar: <span class="valor ${dolarClass}">R$ ${dolarBid.toFixed(2)}</span>`;
         document.getElementById('euro').innerHTML = `Euro: <span class="valor ${euroClass}">R$ ${euroBid.toFixed(2)}</span>`;
+        document.getElementById('cny').innerHTML = `Yuan Chinês: <span class="valor ${cnyClass}">R$ ${cnyBid.toFixed(2)}</span>`;
 
       } catch (erro) {
         document.querySelector('.card').innerHTML = '<p class="erro">Erro ao carregar cotações.</p>';
