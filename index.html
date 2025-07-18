@@ -40,7 +40,14 @@
 
     .valor {
       font-weight: bold;
-      color: #f75c03; /* laranja vibrante */
+    }
+
+    .up {
+      color: #4caf50; /* verde para alta */
+    }
+
+    .down {
+      color: #f44336; /* vermelho para baixa */
     }
 
     .erro {
@@ -66,8 +73,16 @@
         const dolar = dados.USDBRL;
         const euro = dados.EURBRL;
 
-        document.getElementById('dolar').innerHTML = `Dólar: <span class="valor">R$ ${parseFloat(dolar.bid).toFixed(2)}</span>`;
-        document.getElementById('euro').innerHTML = `Euro: <span class="valor">R$ ${parseFloat(euro.bid).toFixed(2)}</span>`;
+        const dolarBid = parseFloat(dolar.bid);
+        const dolarOpen = parseFloat(dolar.open);
+        const euroBid = parseFloat(euro.bid);
+        const euroOpen = parseFloat(euro.open);
+
+        const dolarClass = dolarBid >= dolarOpen ? 'up' : 'down';
+        const euroClass = euroBid >= euroOpen ? 'up' : 'down';
+
+        document.getElementById('dolar').innerHTML = `Dólar: <span class="valor ${dolarClass}">R$ ${dolarBid.toFixed(2)}</span>`;
+        document.getElementById('euro').innerHTML = `Euro: <span class="valor ${euroClass}">R$ ${euroBid.toFixed(2)}</span>`;
 
       } catch (erro) {
         document.querySelector('.card').innerHTML = '<p class="erro">Erro ao carregar cotações.</p>';
